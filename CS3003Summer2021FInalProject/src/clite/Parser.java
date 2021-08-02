@@ -447,7 +447,8 @@ public class Parser {
 
     private boolean isAddOp( ) {
         return token.type().equals(TokenType.Plus) ||
-               token.type().equals(TokenType.Minus);
+               token.type().equals(TokenType.Minus) ||
+               token.type().equals(TokenType.Ding);
     }
     
     private boolean isMultiplyOp( ) {
