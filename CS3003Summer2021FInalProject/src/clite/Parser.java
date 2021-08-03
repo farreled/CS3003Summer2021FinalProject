@@ -289,7 +289,7 @@ public class Parser {
         return new Loop(test, st);  // student exercise
     }
 	
-    private Loop UntilStatement () {
+    private Loop untilStatement () {
         // UntilStatement --> until ( Expression ) Statement
 	match(token.type());
 	match(TokenType.LeftParen);
