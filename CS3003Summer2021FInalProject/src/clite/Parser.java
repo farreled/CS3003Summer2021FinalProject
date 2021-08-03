@@ -175,7 +175,7 @@ public class Parser {
     }
   
     private Type type () {
-        // Type  -->  int | bool | float | char 
+        // Type  -->  int | bool | float | char | double
         Type t = null;
 	if (token.type().equals(TokenType.Int)) {
 		t = Type.INT;
@@ -183,11 +183,13 @@ public class Parser {
 		t = Type.BOOL;
 	} else if (token.type().equals(TokenType.Char)) {
 		t = Type.CHAR;
+	}else if (token.type().equals(TokenType.Double)) {
+		t = Type.DOUBLE;
 	} else if (token.type().equals(TokenType.Float)) {
 		t = Type.FLOAT;
 	} else if (token.type().equals(TokenType.Void)) {
 		t = Type.VOID;
-	} else error("int | bool | float | char");
+	} else error("int | bool | float | char | double");
         // student exercise
         return t;          
     }
@@ -437,6 +439,9 @@ public class Parser {
 	} else if (token.type().equals(TokenType.FloatLiteral)) {
 		float f_val = Float.parseFloat(match(token.type()));
 		val = new FloatValue(f_val);
+	} else if (token.type().equals(TokenType.DoubleLiteral)) {
+		double d_val = Double.parseDouble(match(token.type()));
+		val = new DoubleValue(d_val);
 	} else {
 		char c_val = match(token.type()).charAt(0);
 		val = new CharValue(c_val); 
@@ -447,8 +452,7 @@ public class Parser {
 
     private boolean isAddOp( ) {
         return token.type().equals(TokenType.Plus) ||
-               token.type().equals(TokenType.Minus) ||
-               token.type().equals(TokenType.Ding);
+               token.type().equals(TokenType.Minus);
     }
     
     private boolean isMultiplyOp( ) {
@@ -478,14 +482,16 @@ public class Parser {
             || token.type().equals(TokenType.Bool) 
             || token.type().equals(TokenType.Float)
             || token.type().equals(TokenType.Char)
-	    || token.type().equals(TokenType.Void);
+            || token.type().equals(TokenType.Double)
+            || token.type().equals(TokenType.Void);
     }
     
     private boolean isLiteral( ) {
         return token.type().equals(TokenType.IntLiteral) ||
             isBooleanLiteral() ||
             token.type().equals(TokenType.FloatLiteral) ||
-            token.type().equals(TokenType.CharLiteral);
+            token.type().equals(TokenType.CharLiteral) ||
+            token.type().equals(TokenType.DoubleLiteral);
     }
     
     private boolean isBooleanLiteral( ) {
@@ -494,9 +500,9 @@ public class Parser {
     }
     
     public static void main(String args[]) {
-//        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
-//        Parser parser  = new Parser(new Lexer("hello.cpp"));
-        Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
+//        Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+        System.out.println("Parsing..." + args[0]);
         Program prog = parser.program();
         
         prog.applyTypeSystemRules();

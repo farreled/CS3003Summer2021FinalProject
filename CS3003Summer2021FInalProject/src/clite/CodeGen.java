@@ -173,6 +173,8 @@ public class CodeGen {
 			String store;
 			if (target_type.equals(Type.INT) || target_type.equals(Type.CHAR) || target_type.equals(Type.BOOL)) {
 				store = "istore";
+			} else if (target_type.equals(Type.DOUBLE)) {
+				store = "dstore";
 			} else if (target_type.equals(Type.FLOAT)) {
 				store = "fstore";
 			} else {
@@ -186,6 +188,8 @@ public class CodeGen {
 			descriptor.equals(Type.BOOL) || 
 			descriptor.equals(Type.CHAR))
 				type = "I";
+			else if(descriptor.equals(Type.DOUBLE))
+				type = "D";
 			else // it's a float
 				type = "F";
 			jfile.writeln("putstatic " + jfile.get_class() + "/" 
@@ -277,6 +281,8 @@ public class CodeGen {
 		print_type = "I";
 	else if (e_type.equals(Type.CHAR)) 
 		print_type = "C";
+	else if (e_type.equals(Type.DOUBLE)) 
+		print_type = "D";
 	else //It's a Bool
 		print_type = "Z";
 	
@@ -303,6 +309,8 @@ public class CodeGen {
 	String j_type = typeOf(r.result, symtable).to_jasmin(); 
 	if (j_type.equals("I"))	
 		jfile.writeln("ireturn");
+	else if (j_type.equals("D"))
+		jfile.writeln("dreturn");	// new
 	else // it's gotta be a float
 		jfile.writeln("freturn");
     }
@@ -321,6 +329,8 @@ public class CodeGen {
             if (b.op.ArithmeticOp( ))
                 if (typeOf(b.term1,sym)== Type.FLOAT)
                     return (Type.FLOAT);
+                else if (typeOf(b.term1,sym)== Type.DOUBLE)
+                    return (Type.DOUBLE);
                 else return (Type.INT);
             if (b.op.RelationalOp( ) || b.op.BooleanOp( )) 
                 return (Type.BOOL);
@@ -333,6 +343,7 @@ public class CodeGen {
             else if (u.op.intOp( ))    return (Type.INT);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
+            else if (u.op.doubleOp( )) return (Type.DOUBLE);
 	    System.out.println("nothing in Unary!");
         }
 	if (e instanceof CallExpression) {
@@ -486,6 +497,86 @@ public class CodeGen {
 			jfile.writeln("fdiv");
             return; 
 		}
+	if (op.val.equals(Operator.DOUBLE_LT)) {
+		jfile.writeln("f=dcmpl");
+		// 1 if its true
+		// -1 if its false
+		// 0 it its false
+
+		jfile.writeln("bipush 0");
+		jfile.write("\tif_icmplt ");
+		jfile.write_relop_body(branch_cnt);
+		branch_cnt++;
+		return;
+	} if (op.val.equals(Operator.DOUBLE_GT))  {
+		jfile.writeln("dcmpg");
+		// 1 if its true
+		// -1 if its false
+		// 0 it its false
+
+		jfile.writeln("bipush 0");
+		jfile.write("\tif_icmplt ");
+		jfile.write_relop_body(branch_cnt);
+		branch_cnt++;
+		return;
+	} if (op.val.equals(Operator.DOUBLE_EQ)) {
+		jfile.writeln("dcmpg");
+		// 1 if its true
+		// -1 if its false
+		// 0 it its false
+
+		jfile.writeln("bipush 0");
+		jfile.write("\tif_icmpeq ");
+		jfile.write_relop_body(branch_cnt);
+		branch_cnt++;
+		return;
+	} if (op.val.equals(Operator.DOUBLE_NE)) {
+		jfile.writeln("dcmpg");
+		// 1 if its true
+		// -1 if its false
+		// 0 it its false
+
+		jfile.writeln("bipush 0");
+		jfile.write("\tif_icmpne ");
+		jfile.write_relop_body(branch_cnt);
+		branch_cnt++;
+		return;
+	} if (op.val.equals(Operator.DOUBLE_GE)) {
+		jfile.writeln("dcmpg");
+		// 1 if its true
+		// -1 if its false
+		// 0 it its false
+
+		jfile.writeln("bipush 0");
+		jfile.write("\tif_icmpge ");
+		jfile.write_relop_body(branch_cnt);
+		branch_cnt++;
+		return;
+	} if (op.val.equals(Operator.DOUBLE_LE)) {
+		jfile.writeln("dcmpg");
+		// 1 if its true
+		// -1 if its false
+		// 0 it its false
+
+		jfile.writeln("bipush 0");
+		jfile.write("\tif_icmple ");
+		jfile.write_relop_body(branch_cnt);
+		branch_cnt++;
+		return;
+	} if (op.val.equals(Operator.DOUBLE_PLUS)) { 
+			jfile.writeln("dadd");
+            return;
+	} if (op.val.equals(Operator.DOUBLE_MINUS)) {
+			jfile.writeln("dsub");
+            return; 
+        } if (op.val.equals(Operator.DOUBLE_TIMES)) {
+			jfile.writeln("dmul");
+            return; 
+        } if (op.val.equals(Operator.DOUBLE_DIV)) {
+			jfile.writeln("ddiv");
+            return; 
+		}
+
 	// these are some boolean operators which Jasmin has no intructions for
 	// It turns out it's simply more efficient to operate on 32bit ints!
 	// guess it makes sense that its too big of a hassle address a single bit
@@ -527,6 +618,9 @@ public class CodeGen {
         } else if (op.val.equals(Operator.FLOAT_NEG)) {
 			jfile.writeln("fneg");
 			return;
+        } else if (op.val.equals(Operator.DOUBLE_NEG)) {
+			jfile.writeln("dneg");
+			return;
         } else if (op.val.equals(Operator.I2F)) {
 			jfile.writeln("i2f");
 			return;
@@ -537,7 +631,7 @@ public class CodeGen {
 			return; // do nothing, maybe mark this in the symbol table or something, it will affect printing.
         } else if (op.val.equals(Operator.I2C)) {
 			return; // do nothing
-		}
+		} 
         throw new IllegalArgumentException("should never reach here");
     } 
 
@@ -563,6 +657,8 @@ public class CodeGen {
 			if (v_type.equals(Type.INT) || v_type.equals(Type.CHAR)
 				|| v_type.equals(Type.BOOL)) {
 				load = "iload";
+			} else if (v_type.equals(Type.DOUBLE)) {
+				load = "dload";
 			} else if (v_type.equals(Type.FLOAT)) {
 				load = "fload";
 			} else {
@@ -577,6 +673,8 @@ public class CodeGen {
 			descriptor.equals(Type.BOOL) || 
 			descriptor.equals(Type.CHAR))
 				type = "I";
+			else if (descriptor.equals(Type.DOUBLE))
+				type = "D";
 			else // it's a float
 				type = "F";
 			jfile.writeln("getstatic " + jfile.get_class() + "/" 

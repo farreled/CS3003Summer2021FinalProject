@@ -167,10 +167,13 @@ public class StaticTypeCheck {
 	}
         if (e instanceof Binary) {
             Binary b = (Binary)e;
-            if (b.op.ArithmeticOp( ))
+            if (b.op.ArithmeticOp( )) {
                 if (typeOf(b.term1,tm)== Type.FLOAT || typeOf(b.term2,tm)== Type.FLOAT)
                     return (Type.FLOAT);
+                else if (typeOf(b.term1,tm)== Type.DOUBLE || typeOf(b.term2,tm)== Type.DOUBLE)
+                    return (Type.DOUBLE);
                 else return (Type.INT);
+            }
             if (b.op.RelationalOp( ) || b.op.BooleanOp( )) 
                 return (Type.BOOL);
         }
@@ -181,6 +184,7 @@ public class StaticTypeCheck {
             else if (u.op.intOp( ))    return (Type.INT);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
+            else if (u.op.doubleOp( ))  return (Type.DOUBLE);
         } if (e instanceof CallExpression) {
 	    CallExpression c = (CallExpression) e;
 	    FunctionMap fm = (FunctionMap) tm.get(new Variable(c.name));
@@ -207,7 +211,7 @@ public class StaticTypeCheck {
                    , "undeclared variable: " + v);
             return;
         }
-	if (e instanceof Binary) {
+	if (e instanceof Binary) {									// Edit this for type errors with bin ops
             Binary b = (Binary) e;
             Type typ1 = typeOf(b.term1, tm);
             Type typ2 = typeOf(b.term2, tm);
@@ -219,9 +223,9 @@ public class StaticTypeCheck {
 		else if (typ1 == Type.INT && typ2 == Type.FLOAT)		
 			check( true, "should never reach here");
 		else
-                	check( typ1 == typ2 &&
-                       		(typ1 == Type.INT || typ1 == Type.FLOAT)
-                       		, "type error for " + b.op);
+        	check( typ1 == typ2 &&
+               		(typ1 == Type.INT || typ1 == Type.FLOAT)
+               		, "type error for " + b.op);
             } else if (b.op.RelationalOp( )) 
                 check( typ1 == typ2 , "type error for " + b.op);
             else if (b.op.BooleanOp( )) 
@@ -240,7 +244,7 @@ public class StaticTypeCheck {
 	    if (u.op.NotOp( ))
 		check( typ == Type.BOOL, u.op + ": non-bool operand");
 	    else if (u.op.NegateOp( ))
-		check( typ == Type.INT || typ == Type.FLOAT, "type error for " + u.op);
+		check( typ == Type.INT || typ == Type.FLOAT || typ == Type.DOUBLE, "type error for " + u.op);
 	    else if (u.op.intOp( ) || u.op.floatOp( ) || u.op.charOp( ))
 		check( typ != Type.BOOL, u.op + ": bool operand");
 	    else
@@ -269,7 +273,8 @@ public class StaticTypeCheck {
 			Type current_arg_type = typeOf(c.args.get(i), tm);
 			if (param_types.get(i).equals(Type.FLOAT)) {
 				check((current_arg_type == Type.FLOAT) ||
-					(current_arg_type  == Type.INT), 
+					(current_arg_type  == Type.INT) ||
+					(current_arg_type  == Type.DOUBLE), 
 				"argument passed to function " + c.name + "not coercible to type float");	
 			}
 			else {
@@ -296,7 +301,7 @@ public class StaticTypeCheck {
 	        target = (Variable) a.target;
 	    }
 	    check( tm.containsKey(target)
-		   , " undefined variable target in assignment: " + a.target);
+		   , " undefined variable target in assignment: " + a.target);			// idk what this section does
             V(a.source, tm);
             Type ttype = (Type)tm.get(target);
             Type srctype = typeOf(a.source, tm);

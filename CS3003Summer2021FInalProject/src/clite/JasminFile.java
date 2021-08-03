@@ -98,8 +98,10 @@ public class JasminFile extends FileWriter {
 		method_sig += func_name;
 		method_sig += "(";
 		for (Declaration param : params) {
-			if (param.t.equals(Type.INT) || param.t.equals(Type.CHAR) ||				param.t.equals(Type.BOOL))
+			if (param.t.equals(Type.INT) || param.t.equals(Type.CHAR) || param.t.equals(Type.BOOL))
 			method_sig += "I";
+			else if (param.t.equals(Type.DOUBLE))
+				method_sig += "D";
 			else
 			method_sig += "F";
 		}	
@@ -107,6 +109,8 @@ public class JasminFile extends FileWriter {
 		if (return_type.equals(Type.INT) || return_type.equals(Type.CHAR) 
 			|| return_type.equals(Type.BOOL))
 			method_sig += "I";
+		else if (return_type.equals(Type.DOUBLE))
+			method_sig += "D";
 		else if (return_type.equals(Type.FLOAT)) 
 			method_sig += "F";
 		else // return_type is of type void

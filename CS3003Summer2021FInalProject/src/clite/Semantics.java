@@ -146,14 +146,12 @@ public class Semantics {
             return new IntValue(v1.intValue( ) * v2.intValue( ));
         if (op.val.equals(Operator.INT_DIV)) 
             return new IntValue(v1.intValue( ) / v2.intValue( ));
-        if (op.val.equals(Operator.INT_DING))
-			return new IntValue(v1.intValue() + (v2.intValue() * 2));
         // student exercise
-	if (op.val.equals(Operator.INT_LT)) {
+	if (op.val.equals(Operator.INT_LT))
 	    return new BoolValue(v1.intValue() < v2.intValue());
-	} if (op.val.equals(Operator.INT_GT)) {
+	if (op.val.equals(Operator.INT_GT))
 	    return new BoolValue(v1.intValue() > v2.intValue());
-	} if (op.val.equals(Operator.INT_EQ))
+	if (op.val.equals(Operator.INT_EQ))
 	    return new BoolValue(v1.intValue() == v2.intValue());
 	if (op.val.equals(Operator.INT_NE))
 	    return new BoolValue(v1.intValue() != v2.intValue());
@@ -175,8 +173,24 @@ public class Semantics {
             return new FloatValue(v1.floatValue( ) * v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_DIV)) 
             return new FloatValue(v1.floatValue( ) / v2.floatValue( ));
-        if (op.val.equals(Operator.FLOAT_DING))
-        	return new FloatValue(v1.floatValue() + (v2.floatValue() * 2));
+
+	if (op.val.equals(Operator.DOUBLE_LT))
+	    return new BoolValue(v1.doubleValue() < v2.doubleValue());
+	if (op.val.equals(Operator.DOUBLE_GT))
+	    return new BoolValue(v1.doubleValue() > v2.doubleValue());
+	if (op.val.equals(Operator.DOUBLE_EQ))
+	    return new BoolValue(v1.doubleValue() == v2.doubleValue());
+	if (op.val.equals(Operator.DOUBLE_NE))
+	    return new BoolValue(v1.doubleValue() != v2.doubleValue());
+
+	if (op.val.equals(Operator.DOUBLE_PLUS)) 
+        return new DoubleValue(v1.doubleValue( ) + v2.doubleValue( ));
+    if (op.val.equals(Operator.DOUBLE_MINUS)) 
+        return new DoubleValue(v1.doubleValue( ) - v2.doubleValue( ));
+    if (op.val.equals(Operator.DOUBLE_TIMES)) 
+        return new DoubleValue(v1.doubleValue( ) * v2.doubleValue( ));
+    if (op.val.equals(Operator.DOUBLE_DIV)) 
+        return new DoubleValue(v1.doubleValue( ) / v2.doubleValue( ));
 
 	if (op.val.equals(Operator.BOOL_LT)) 
             return new BoolValue(v1.intValue( ) < v2.intValue( ));
@@ -201,9 +215,9 @@ public class Semantics {
             return new BoolValue(!v.boolValue( ));
         else if (op.val.equals(Operator.INT_NEG))
             return new IntValue(-v.intValue( ));
-        else if (op.val.equals(Operator.FLOAT_NEG)) {
+        else if (op.val.equals(Operator.FLOAT_NEG))
             return new FloatValue(-v.floatValue( ));
-        } else if (op.val.equals(Operator.I2F)) 
+        else if (op.val.equals(Operator.I2F)) 
             return new FloatValue((float)(v.intValue( ))); 
         else if (op.val.equals(Operator.F2I))
             return new IntValue((int)(v.floatValue( )));

@@ -12,6 +12,7 @@ public class Token {
     public static final Token eofTok = new Token(TokenType.Eof, "<<EOF>>");
     public static final Token boolTok = new Token(TokenType.Bool, "bool");
     public static final Token charTok = new Token(TokenType.Char, "char");
+    public static final Token doubleTok = new Token(TokenType.Double, "double");
     public static final Token elseTok = new Token(TokenType.Else, "else");
     public static final Token falseTok = new Token(TokenType.False, "false");
     public static final Token floatTok = new Token(TokenType.Float, "float");
@@ -86,6 +87,10 @@ public class Token {
 
     public static Token mkCharLiteral (String name) {
         return new Token(TokenType.CharLiteral, name);
+    }
+    
+    public static Token mkDoubleLiteral (String name) {
+        return new Token(TokenType.DoubleLiteral, name);
     }
 
     public String toString ( ) {

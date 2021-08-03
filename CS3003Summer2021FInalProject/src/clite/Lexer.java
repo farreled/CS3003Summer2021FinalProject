@@ -63,7 +63,11 @@ public class Lexer {
                 if (ch != '.')  // int Literal
                     return Token.mkIntLiteral(number);
                 number += concat(digits);
-                return Token.mkFloatLiteral(number);
+                if (ch == 'f') {
+                	ch = nextChar(); // skip over the f
+                	return Token.mkFloatLiteral(number);
+                }
+                return Token.mkDoubleLiteral(number);
             } else switch (ch) {
             case ' ': case '\t': case '\r': case eolnCh:
                 ch = nextChar();
@@ -120,12 +124,12 @@ public class Lexer {
 	    case ',': ch = nextChar();
 		return Token.commaTok;  
 
-            case '&': check('&'); return Token.andTok;
-            case '|': check('|'); return Token.orTok;
+        case '&': check('&'); return Token.andTok;
+        case '|': check('|'); return Token.orTok;
 
-            case '=':
-                return chkOpt('=', Token.assignTok,
-                                   Token.eqeqTok);
+        case '=':
+            return chkOpt('=', Token.assignTok,
+                               Token.eqeqTok);
 	    case '<':
 		return chkOpt('=', Token.ltTok,
 				   Token.lteqTok);
@@ -191,6 +195,7 @@ public class Lexer {
     }
 
     static public void main ( String[] argv ) {
+    	System.out.println("Lexing... " + argv[0]);
         Lexer lexer = new Lexer(argv[0]);
         Token tok = lexer.next( );
         while (tok != Token.eofTok) {
