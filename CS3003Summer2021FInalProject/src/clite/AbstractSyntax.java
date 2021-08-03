@@ -677,6 +677,7 @@ class Operator {
     final static String MINUS = "-";
     final static String TIMES = "*";
     final static String DIV = "/";
+    final static String DING = "+*";
     // UnaryOp = !    
     final static String NOT = "!";
     final static String NEG = "-NEG"; //This has been changed from "-" to "-NEG" to avoid ambiguity with MINUS
@@ -698,6 +699,7 @@ class Operator {
     final static String INT_MINUS = "INT-";
     final static String INT_TIMES = "INT*";
     final static String INT_DIV = "INT/";
+    final static String INT_DING = "INT+*";
     // UnaryOp = !    
     final static String INT_NEG = "INT-NEG";
     // RelationalOp = < | <= | == | != | >= | >
@@ -712,6 +714,7 @@ class Operator {
     final static String FLOAT_MINUS = "FLOAT-";
     final static String FLOAT_TIMES = "FLOAT*";
     final static String FLOAT_DIV = "FLOAT/";
+    final static String FLOAT_DING = "FLOAT+*";
     // UnaryOp = !    
     final static String FLOAT_NEG = "FLOAT-NEG";
     // RelationalOp = < | <= | == | != | >= | >

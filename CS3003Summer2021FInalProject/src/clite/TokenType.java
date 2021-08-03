@@ -8,7 +8,7 @@ public enum TokenType {
      Eof, LeftBrace, RightBrace, LeftBracket, RightBracket,
      LeftParen, RightParen, Semicolon, Comma, Assign,
      Equals, Less, LessEqual, Greater, GreaterEqual,
-     Not, NotEqual, Plus, Minus, Multiply,
+     Not, NotEqual, Plus, Minus, Ding, Multiply,
      Divide, And, Or, Identifier, IntLiteral,
      FloatLiteral, CharLiteral, DoubleLiteral
 }

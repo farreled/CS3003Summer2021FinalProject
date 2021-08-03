@@ -146,6 +146,8 @@ public class Semantics {
             return new IntValue(v1.intValue( ) * v2.intValue( ));
         if (op.val.equals(Operator.INT_DIV)) 
             return new IntValue(v1.intValue( ) / v2.intValue( ));
+        if (op.val.equals(Operator.INT_DING))
+        	return new IntValue(v1.intValue( ) + (v2.intValue() * 2));
         // student exercise
 	if (op.val.equals(Operator.INT_LT))
 	    return new BoolValue(v1.intValue() < v2.intValue());
@@ -173,6 +175,8 @@ public class Semantics {
             return new FloatValue(v1.floatValue( ) * v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_DIV)) 
             return new FloatValue(v1.floatValue( ) / v2.floatValue( ));
+        if (op.val.equals(Operator.FLOAT_DING))
+        	return new FloatValue(v1.floatValue( ) + (v2.floatValue() * 2));
 
 	if (op.val.equals(Operator.DOUBLE_LT))
 	    return new BoolValue(v1.doubleValue() < v2.doubleValue());
