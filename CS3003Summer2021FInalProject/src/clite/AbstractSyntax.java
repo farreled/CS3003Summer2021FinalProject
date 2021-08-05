@@ -672,7 +672,7 @@ class Operator {
     final static String NE = "!=";
     final static String GT = ">";
     final static String GE = ">=";
-    // ArithmeticOp = + | - | * | /
+    // ArithmeticOp = + | - | * | / | +*
     final static String PLUS = "+";
     final static String MINUS = "-";
     final static String TIMES = "*";
@@ -681,7 +681,7 @@ class Operator {
     // UnaryOp = !    
     final static String NOT = "!";
     final static String NEG = "-NEG"; //This has been changed from "-" to "-NEG" to avoid ambiguity with MINUS
-    // CastOp = int | float | char
+    // CastOp = int | float | char | double
     final static String INT = "int";
     final static String FLOAT = "float";
     final static String CHAR = "char";
@@ -737,6 +737,7 @@ class Operator {
     final static String DOUBLE_MINUS = "DOUBLE-";
     final static String DOUBLE_TIMES = "DOUBLE*";
     final static String DOUBLE_DIV = "DOUBLE/";
+    final static String DOUBLE_DING = "DOUBLE+*";
     // UnaryOp = !    
     final static String DOUBLE_NEG = "FLOAT-NEG";
     
@@ -773,7 +774,9 @@ class Operator {
             || val.equals(FLOAT_PLUS) || val.equals(FLOAT_MINUS)
             || val.equals(FLOAT_TIMES) || val.equals(FLOAT_DIV)
             || val.equals(DOUBLE_PLUS) || val.equals(DOUBLE_MINUS)
-            || val.equals(DOUBLE_TIMES) || val.equals(DOUBLE_DIV);
+            || val.equals(DOUBLE_TIMES) || val.equals(DOUBLE_DIV)
+        	|| val.equals(INT_DING) || val.equals(FLOAT_DING)
+        	|| val.equals(DOUBLE_DING) || val.equals(DING);
     }
     boolean NotOp ( ) { return val.equals(NOT) ; }
     boolean NegateOp ( ) { return (val.equals(NEG) || val.equals(INT_NEG) || 
@@ -785,7 +788,7 @@ class Operator {
 
     final static String intMap[ ] [ ] = {
         {PLUS, INT_PLUS}, {MINUS, INT_MINUS},
-        {TIMES, INT_TIMES}, {DIV, INT_DIV},
+        {TIMES, INT_TIMES}, {DIV, INT_DIV}, {DING, INT_DING},
         {EQ, INT_EQ}, {NE, INT_NE}, {LT, INT_LT},
         {LE, INT_LE}, {GT, INT_GT}, {GE, INT_GE},
         {NEG, INT_NEG}, {FLOAT, I2F}, {CHAR, I2C}
@@ -793,7 +796,7 @@ class Operator {
 
     final static String floatMap[ ] [ ] = {
         {PLUS, FLOAT_PLUS}, {MINUS, FLOAT_MINUS},
-        {TIMES, FLOAT_TIMES}, {DIV, FLOAT_DIV},
+        {TIMES, FLOAT_TIMES}, {DIV, FLOAT_DIV}, {DING, FLOAT_DING},
         {EQ, FLOAT_EQ}, {NE, FLOAT_NE}, {LT, FLOAT_LT},
         {LE, FLOAT_LE}, {GT, FLOAT_GT}, {GE, FLOAT_GE},
         {NEG, FLOAT_NEG}, {INT, F2I}
@@ -807,7 +810,7 @@ class Operator {
     
     final static String doubleMap[ ] [ ] = {
         {PLUS, DOUBLE_PLUS}, {MINUS, DOUBLE_MINUS},
-        {TIMES, DOUBLE_TIMES}, {DIV, DOUBLE_DIV},
+        {TIMES, DOUBLE_TIMES}, {DIV, DOUBLE_DIV}, {DING, DOUBLE_DING},
         {EQ, DOUBLE_EQ}, {NE, DOUBLE_NE}, {LT, DOUBLE_LT},
         {LE, DOUBLE_LE}, {GT, DOUBLE_GT}, {GE, DOUBLE_GE},
         {NEG, DOUBLE_NEG}

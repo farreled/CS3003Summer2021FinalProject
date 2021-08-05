@@ -67,7 +67,7 @@ public class Lexer {
                 	ch = nextChar(); // skip over the f
                 	return Token.mkFloatLiteral(number);
                 }
-                return Token.mkDoubleLiteral(number);
+                else return Token.mkDoubleLiteral(number);
             } else switch (ch) {
             case ' ': case '\t': case '\r': case eolnCh:
                 ch = nextChar();
@@ -92,55 +92,59 @@ public class Lexer {
             case eofCh: return Token.eofTok;
             
             case '+': ch = nextChar();
+            	if (ch == '*') {
+            		ch = nextChar();
+            		return Token.dingTok;
+            	}
                 return Token.plusTok;
 
-	    case '-': ch = nextChar();
-		return Token.minusTok;
-
-	    case '*': ch = nextChar();
-		return Token.multiplyTok;
-
-	    case '[': ch = nextChar();
-		return Token.leftBracketTok;
+		    case '-': ch = nextChar();
+				return Token.minusTok;
 	
-	    case ']': ch = nextChar();
-		return Token.rightBracketTok;
-
-	    case '(': ch = nextChar();
-		return Token.leftParenTok;
-
-	    case ')': ch = nextChar();
-		return Token.rightParenTok;
-
-	    case '{': ch = nextChar();
-		return Token.leftBraceTok;
-
-	    case '}': ch = nextChar();
-		return Token.rightBraceTok;
-
-	    case ';': ch = nextChar();
-		return Token.semicolonTok;
-
-	    case ',': ch = nextChar();
-		return Token.commaTok;  
-
-        case '&': check('&'); return Token.andTok;
-        case '|': check('|'); return Token.orTok;
-
-        case '=':
-            return chkOpt('=', Token.assignTok,
-                               Token.eqeqTok);
-	    case '<':
-		return chkOpt('=', Token.ltTok,
-				   Token.lteqTok);
-
-	    case '>':
-		return chkOpt('=', Token.gtTok,
-				   Token.gteqTok);
-
-	    case '!':
-		return chkOpt('=', Token.notTok,
-				   Token.noteqTok);
+		    case '*': ch = nextChar();
+				return Token.multiplyTok;
+	
+		    case '[': ch = nextChar();
+				return Token.leftBracketTok;
+		
+		    case ']': ch = nextChar();
+				return Token.rightBracketTok;
+	
+		    case '(': ch = nextChar();
+				return Token.leftParenTok;
+	
+		    case ')': ch = nextChar();
+				return Token.rightParenTok;
+	
+		    case '{': ch = nextChar();
+				return Token.leftBraceTok;
+	
+		    case '}': ch = nextChar();
+		    	return Token.rightBraceTok;
+	
+		    case ';': ch = nextChar();
+				return Token.semicolonTok;
+	
+		    case ',': ch = nextChar();
+				return Token.commaTok;  
+	
+	        case '&': check('&'); return Token.andTok;
+	        case '|': check('|'); return Token.orTok;
+	
+	        case '=':
+	            return chkOpt('=', Token.assignTok,
+	                               Token.eqeqTok);
+		    case '<':
+		    	return chkOpt('=', Token.ltTok,
+					   Token.lteqTok);
+	
+		    case '>':
+		    	return chkOpt('=', Token.gtTok,
+					   Token.gteqTok);
+	
+		    case '!':
+		    	return chkOpt('=', Token.notTok,
+					   Token.noteqTok);
 
             default:  error("Illegal character " + ch); 
             } // switch
