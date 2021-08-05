@@ -1,27 +1,27 @@
 int main() {
-    int int_val_a = 5;
-    int int_val_b = 3;
-    int add_sub_result;
-    float float_val_a = .7f;
-    float float_val_b = .3f;
-    float div_mult_result;
-    bool test_bool = false;
-    double test_new_operatorA = .05;
-    double test_new_operatorB = .07;
-    double test_new_operatorC;
+    // Variable declarations
+    int intVal;
+    float floatValA, floatValB, addresult;
+    double doubleValA, doubleValB, doubleValC, subresult, divMultResult;
 
-    add_sub_result = int_val_a + int_val_b;
-    add_sub_result = int_val_a - int_val_b;
-    div_mult_result = float_val_a * float_val_b;
-    div_mult_result = float_val_a / float_val_b;
+    // Variable assignment
+    intVal = 5;
+
+    floatValA = 0.7f;
+    floatValB = 0.3f;
+
+    doubleValA = 0.05;
+    doubleValB = 0.07;
+
+    // Basic arithmatic tests
+    addresult = floatValA + floatValB;
+    subresult = doubleValB - doubleValA;
+    divMultResult = doubleValA * doubleValB;
+    divMultResult = doubleValA / doubleValB;
     
-    test_new_operatorC = test_new_operatorA +* test_new_operatorB;
+    doubleValC = doubleValA +* doubleValB;
 
-    until (int_val_a >= 10) {
-        int_val_a = int_val_a + 1;
-    }
-
-    if (int_val_a > 2) {
-        test_bool = true;
+    until (intVal >= 10) {
+        intVal = intVal + 1;
     }
 }
